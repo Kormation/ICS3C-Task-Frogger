@@ -23,7 +23,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 grid = make_grid()
 
 # Set the title of the pygame screen
-pygame.display.set_caption("My Game")
+pygame.display.set_caption("Frogger")
 
 # Create a clock to keep track of time
 clock = pygame.time.Clock()
@@ -115,3 +115,6 @@ while running:
 
     # Flip the changes to the screen to the computer display
     pygame.display.flip()
+
+# End the program
+pygame.quit()
