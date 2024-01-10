@@ -16,7 +16,8 @@ HEIGHT = 480
 BACKGROUND_COLOR = "#444444"
 FONT_COLOR = "#6aa84f"
 GAME_OVER_COLOR = "crimson"
-START_TIME = 10
+START_TIME = 60
+POINTS = 0
 PAUSED_COLOR = "gold"
 
 # Create and open a pygame screen with the given size
@@ -100,6 +101,13 @@ timer = Sprite(baloo_font_small.render(f"{time_left}", True, FONT_COLOR))
 timer.center = (2 * WIDTH / 3, 30)
 timer.add(all_sprites)
 
+baloo_font_small = pygame.font.Font("Baloo.ttf", 36)
+points = POINTS
+counter = Sprite(baloo_font_small.render(f"{points}", True, FONT_COLOR))
+counter.center = (2 * WIDTH / 6, 30)
+counter.add(all_sprites)
+
+
 # Sprite with GAME OVER message
 baloo_font_large = pygame.font.Font("Baloo.ttf", 72)
 game_over = Sprite(baloo_font_large.render("GAME OVER", True, GAME_OVER_COLOR))
@@ -139,6 +147,7 @@ while running:
                     frog.kill()
                 pause_button.kill()
                 start_button.add(all_sprites)
+                frog.kill()
                     
         elif event.type == MOUSEBUTTONDOWN:
             if exit_button.mask_contains_point(event.pos):
@@ -186,6 +195,22 @@ while running:
             vehicle.left = 0
         if vehicle.right < 0:
             vehicle.left = WIDTH
+            
+        #Check if the vehicle is touching the frog and if so, start over
+        if pygame.sprite.collide_mask(frog, vehicle):
+            frog.center = (320, 400)
+            
+    #IF an arrow is pressed down, move the frog.
+    if frog.alive():
+        keys = pygame.key.get_pressed()
+        if keys[K_UP] and frog.top > 60:
+            frog.y -= 1
+        if keys[K_DOWN] and frog.bottom < 420:
+            frog.y += 1
+        if keys[K_LEFT] and frog.left > 0:
+            frog.x -= 1
+        if keys[K_RIGHT] and frog.right < WIDTH:
+            frog.x += 1
     
 
     # Update the sprites' locations
